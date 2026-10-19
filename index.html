@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Player</title>
+<style>
+  html,body{margin:0;height:100%;background:#000;overflow:hidden}
+  iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+</style>
+</head>
+<body>
+<script>
+  var p = new URLSearchParams(location.search);
+  var v = p.get('v') || '';
+  var list = p.get('list') || '';
+  var idOk = /^[\w-]{11}$/.test(v);
+  var listOk = /^[\w-]+$/.test(list);
+  if (idOk || listOk) {
+    var src = 'https://www.youtube.com/embed/' + (idOk ? v : 'videoseries') +
+      '?autoplay=1&rel=0&playsinline=1&origin=' + encodeURIComponent(location.origin) +
+      (listOk ? '&list=' + list : '');
+    var f = document.createElement('iframe');
+    f.src = src;
+    f.referrerPolicy = 'strict-origin-when-cross-origin';
+    f.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
+    f.allowFullscreen = true;
+    document.body.appendChild(f);
+  }
+</script>
+</body>
+</html>
